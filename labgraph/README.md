@@ -64,7 +64,13 @@ cp sender-ss.svg /var/www/html/
 ```
 
 Visiter http://@IPClient/sender-ss.svg
-Analysez !!
+
+Nous ajoutons un autre graphe : l'évolution du RTT dans le temps :
+```
+Rscript ss-data-analysis-rtt-vs-time.R
+cp sender-ss-rtt-vs-time.svg /var/www/html/
+```
+Cette fois-ci c'est http://@IPClient/sender-ss-rtt-vs-time.svg qu'il faut visiter.
 
 ---
 PS : ce Lab est inspiré de [https://harshkapadia2.github.io/tcp-version-performance-comparison/](https://harshkapadia2.github.io/tcp-version-performance-comparison/).
