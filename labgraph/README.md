@@ -42,3 +42,7 @@ cp sender-ss.png /var/www/html/
 ```
 
 Visiter http://@IPClient/sender-ss.png
+Analysez !!
+
+---
+PS : ce Lab est inspiré de [https://harshkapadia2.github.io/tcp-version-performance-comparison/](https://harshkapadia2.github.io/tcp-version-performance-comparison/).
