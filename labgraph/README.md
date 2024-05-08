@@ -6,6 +6,7 @@ apt update
 apt -y install iperf3 moreutils nginx
 apt -y install python3-pip libjpeg-dev
 python3 -m pip install pandas matplotlib
+apt -y install r-base-core r-cran-ggplot2
 ```
 
 Désactiver l'historique
