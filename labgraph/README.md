@@ -31,6 +31,8 @@ bash ss-output.sh @TARGET
 iperf3 -c @TARGET -P 3 -t 60 -C reno  
 ```
 
+Le tir dure 60 sec. Lorsqu'il est fini, tappez (une seule fois) ```Ctrl-C``` dans l'autre fenêtre afin de stopper la collecte de données.
+
 PS = ```@TARGET``` est fourni par l'animateur, c'est le routeur qui SNAT/DNAT ver le serveur, avec une application de bande-passante/delai/perte de paquet (voir [script de configuration](rtr/setup-bw.sh) )
 
 ## Creation du graphe CWND
