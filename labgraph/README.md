@@ -13,6 +13,11 @@ Désactiver l'historique
 sysctl -w net.ipv4.tcp_no_metrics_save=1  
 ```
 
+Récuperer le script de mesure du CWND (basé sur ```ss``` )
+```
+curl https://raw.githubusercontent.com/pragmatic-fermat/cubic-bbr/main/labgraph/client/ss-output.sh
+```
+
 ## Réalisation du "tir"
 
 Dans 2 terminaux sur le Client, executez :
