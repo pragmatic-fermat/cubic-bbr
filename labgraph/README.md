@@ -4,7 +4,6 @@ apt update
 apt -y install iperf3 moreutils nginx
 apt -y install python3-pip libjpeg-dev
 python3 -m pip install pandas matplotlib
-apt install nginx
 ```
 
 Désactiver l'historique
