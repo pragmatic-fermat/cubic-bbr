@@ -3,15 +3,15 @@
 Sur le Client, lancer :
 ```
 apt update  
-apt -y install iperf3 moreutils nginx
+apt -y install iperf3 moreutils nginx curl ethtool
 apt -y install python3-pip libjpeg-dev
 python3 -m pip install pandas matplotlib
 apt -y install r-base-core r-cran-ggplot2
 ```
 
-Désactiver l'historique
+Désactiver l'historique et TSO dans les paramètres kernel :
 ```
-sysctl -w net.ipv4.tcp_no_metrics_save=1  
+./prepare-kernel.sh
 ```
 
 Récuperer le script de mesure du CWND (basé sur ```ss``` )
