@@ -12,3 +12,6 @@ b) For each TCP flow
 ```
 python analysis_pcap_tcp_B.py ./assignement2.pcap
 ```
+
+PS : ces scripts sont extraits de :
+- [https://github.com/pkpraveen895/pcap-analyser.git](https://github.com/pkpraveen895/pcap-analyser.git)
