@@ -5,7 +5,7 @@ D'abord listez les conversations TCP du pcap X avec ```tshark``` (lent)
 
 ```tshark -r assignment2.pcap -q -z conv,tcp```
 
-Ensuite, on peut isoler chaque conversation tcp dans un fichier avec l'outil [tcpflow](https://github.com/simsong/tcpflow) 
+Ensuite, on peut isoler le **contenu** de chaque conversation tcp dans un fichier avec l'outil [tcpflow](https://github.com/simsong/tcpflow) 
 
 ```
 # tcpflow -r assignment2.pcap 
@@ -23,7 +23,7 @@ Puis, utilisez le script ```bytes-in-flight.sh``` pour analyser la connexions so
 bytes-in-flight.sh ./assignment2.pcap 130.245.145.12 43498 128.208.2.198 80 bif.txt
 ```
 
-Le contenu di fichier bif.txt ressemble à ceci :
+Le contenu du fichier bif.txt ressemble à ceci :
 ```
 2.004151000   10092569  -  10072313  = BIF:  20256      1638400  Avail-Window:  1618144   21187
 2.004154000   10092569  -  10075209  = BIF:  17360      1638400  Avail-Window:  1621040   21188
@@ -62,6 +62,17 @@ Pour analyser le début et la fin :
 0.672513000  1209105  -  883305  =  BIF:  325800  393216  Avail-Window:  67416   2434
 0.672516000  1210553  -  883305  =  BIF:  327248  393216  Avail-Window:  65968   2435
 ```
+
+Analysez les 20/30 ères lignes pour observer le slow start, le RTT...
+
+Idéalement il nous faudrait des retsransmissions (RTO ou 3 Dup ACKs), cherchons-les :
+```
+# ./packet-analysis/find-retran-failures.sh ./assignment2.pcap "tcp.srcport==80"
+current stream:0, 1, 2, 
+No TCP connections appear to have failed due of retransmissions
+```
+
+---
 
 PS : ces scripts sont extraits de :
 - [https://github.com/noahdavids/packet-analysis.git](https://github.com/noahdavids/packet-analysis.git)
