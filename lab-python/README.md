@@ -1,4 +1,4 @@
-# Analyse avec python
+# Construction de la suite de CWND avec python
 
 Ce script a été construit autour du pcap assignement2.pcap afin de répondre aux questions suivantes :
 

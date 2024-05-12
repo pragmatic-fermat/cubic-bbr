@@ -4,6 +4,8 @@ from __future__ import division
 import csv
 import statistics
 import os
+import sys
+
 from collections import Counter
 #----------------------------------------------------------------------------
 def tcp_congestion_variant(beta):

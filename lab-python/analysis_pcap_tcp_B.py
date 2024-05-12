@@ -1,5 +1,6 @@
 import struct
 import dpkt
+import sys
 
 def getField(buffer,f,position,field_size):
     if(len(buffer)>position):
@@ -79,10 +80,12 @@ def Loss(connection):
     ack_dict = {}
 
     for p in connection.packets:
-        if req_tcp_connection(p,"130.245.145.12","128.208.2.198"):
+        #if req_tcp_connection(p,"130.245.145.12","128.208.2.198"):
+        if req_tcp_connection(p,sender,receiver):
             sequence_dict[p.sequence_number] = sequence_dict.get(p.sequence_number,0) + 1
         
-        if req_tcp_connection(p,"128.208.2.198","130.245.145.12"):
+        #if req_tcp_connection(p,"128.208.2.198","130.245.145.12"):
+        if req_tcp_connection(p,"receiver","sender"):
             ack_dict[p.ack_number] = ack_dict.get(p.ack_number,0) + 1
 
     for key,value in sequence_dict.items():
@@ -107,7 +110,8 @@ def congestionWindow(connection):
         c += 1
         if i > 11:
             break
-        if req_tcp_connection(p,"130.245.145.12","128.208.2.198"):
+        ##if req_tcp_connection(p,"130.245.145.12","128.208.2.198"):
+        if req_tcp_connection(p,sender,receiver):
             count = count + 1
             if first_packet:
                 first_packet_timestamp = p.timestamp
@@ -124,17 +128,19 @@ def congestionWindow(connection):
 if __name__=='__main__':
 
     # Ensure that a filename is passed to the script
-    if len(sys.argv) < 2:
-        print("Usage: script.py <filename>")
+    if len(sys.argv) < 4:
+        print("Usage: script.py <filename> <sender> <receiver>")
         sys.exit(1)
 
     filename = sys.argv[1]
+    sender = sys.argv[2]
+    receiver = sys.argv[3]
 
     packets = []
     connections = []
     tcp_connection_count = 0
     ## for timestamp,buffer in dpkt.pcap.Reader(open('assignment2.pcap', 'rb')):
-    for timestamp,buffer in dpkt.pcap.Reader(open('assignment2.pcap', 'rb')):
+    for timestamp,buffer in dpkt.pcap.Reader(open(filename, 'rb')):
         p = TCP_Packet()
         p.parse(timestamp,buffer)
         if p.valid:
