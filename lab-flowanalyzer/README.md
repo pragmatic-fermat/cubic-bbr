@@ -3,7 +3,7 @@
 Ce script permet notammnet d'analyser un pcap pour calculer :
 - liste des flow TCP
 - numéro de SEQ et d'ACL initiaux
-- débit de l'émetteur
+- débit de l'émetteur (basé sur les données captuées, donc un snamp len à 96 va fausser les résultats)
 - estimation des premières CWND basé sur le nombre de paquets envoyés lors d'un RTT
 - nombre de retransmissions dus à des 3 DUP ou RTO (=2 x RTT)
 
@@ -43,6 +43,12 @@ Flow 3:
   First 5 Congestion Window Sizes: [21, 43, 63, 597]
   Retransmissions due to Triple Duplicate ACKs: 0
   Retransmissions due to Timeouts: 0
+```
+
+PS : l'outil (surtout la librairie ```dpkt```) ne supporte que le format ```pcap``` et pas ```pcapng```.
+Pour effectuer uen conversion :
+```
+editcap -F libpcap -T ether test.pcapng test.pcap
 ```
 
 ---

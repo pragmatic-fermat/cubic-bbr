@@ -1,5 +1,6 @@
 import dpkt
 import socket
+import sys
 
 
 # Define the maximum port and window size
@@ -111,7 +112,8 @@ def analysis_pcap_tcp(pcap_file):
                             pass
                     else:
                         # New RTT period, reset packet count
-                        if len(flow['cwnd_packets']) < 4:  # Only if we need more CWND sizes
+                        #if len(flow['cwnd_packets']) < 4:  # Only if we need more CWND sizes
+                        if len(flow['cwnd_packets']) < 6:
                             flow['cwnd_packets'].append(1)  # Start counting for a new CWND size
                         flow['last_packet_time'] = timestamp  # Resetting for next RTT counting
 
