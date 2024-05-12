@@ -88,6 +88,7 @@ def Loss(connection):
         if req_tcp_connection(p,"receiver","sender"):
             ack_dict[p.ack_number] = ack_dict.get(p.ack_number,0) + 1
 
+    ## Manque la gestion du SACK
     for key,value in sequence_dict.items():
         if (key in ack_dict) and (ack_dict[key] > 2):
             triple_acknowledgement_loss += sequence_dict[key]-1
@@ -108,7 +109,8 @@ def congestionWindow(connection):
     c = 0
     for p in connection.packets:
         c += 1
-        if i > 11:
+        ## nb de CWND
+        if i > 30:
             break
         ##if req_tcp_connection(p,"130.245.145.12","128.208.2.198"):
         if req_tcp_connection(p,sender,receiver):
@@ -117,9 +119,11 @@ def congestionWindow(connection):
                 first_packet_timestamp = p.timestamp
                 first_packet = False
                 seq_number = int(p.sequence_number)
+            ## LE RTO est ecrit en dur !!
             elif (p.timestamp-first_packet_timestamp)>(0.073):
                 if i!=0:
-                    print ("Congestion Window = %s "%(count*1460))
+                    ##print ("Congestion Window = %s "%(count*1460))
+                    print (f"Congestion Window #{i} = {count} , PacketTimestamp = {p.timestamp:0.5f} FirstPacket = {first_packet_timestamp:.5f}")
                 count = 0
                 first_packet = True
                 i += 1
