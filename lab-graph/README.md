@@ -1,4 +1,8 @@
-## Preparation du Client
+# Introduction
+
+Dans ce lab, nous allons grapher CWN en nous basant sur la collecte des indicateurs systèmes du coté de l'émétteur.
+
+# Preparation du Client
 
 Sur le Client, lancer :
 ```
@@ -19,15 +23,15 @@ Récuperer le script de mesure du CWND (basé sur ```ss``` )
 curl https://raw.githubusercontent.com/pragmatic-fermat/cubic-bbr/main/labgraph/client/ss-output.sh
 ```
 
-## Réalisation du "tir"
+# Réalisation du "tir"
 
 Dans 2 fenêtre sur le Client, executez :
 
-#### a) mesure de CWND en continu
+## a) mesure de CWND en continu
 ```
 bash ss-output.sh @TARGET
 ```
-#### b) iperf vers la destination en spécifiant le CCA (ici RENO)
+## b) iperf vers la destination en spécifiant le CCA (ici RENO)
 ```
 iperf3 -c @TARGET -P 3 -t 60 -C reno  
 ```
@@ -38,7 +42,7 @@ PS = ```@TARGET``` est fourni par l'animateur, c'est le routeur qui SNAT/DNAT ve
 
 PS2 : il est possible d'utiliser un script qui ajoute le calcul du début (tput) : [ss-output-add-tput.sh](client/ss-output-add-tput.sh)
 
-## Creation du graphe CWND pour une connexion
+# Creation du graphe CWND pour une connexion
 Vérifier que les données sont bien enregistrées :
 ```
 ls -lh sender-ss.*
@@ -55,7 +59,7 @@ cp sender-ss.png /var/www/html/
 Visiter http://@IPClient/sender-ss.png
 Analysez !!
 
-## Creation du graphe CWND pour 3 connexions
+# Creation du graphe CWND pour 3 connexions
 
 On part du jeu de données précedent, cette fois-ci le script de génération d'image (svg) est en R :
 ```

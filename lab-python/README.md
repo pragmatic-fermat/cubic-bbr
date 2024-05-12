@@ -1,7 +1,8 @@
-Analyse avec python
+# Analyse avec python
 
+Ce script a été construit autour du pcap assignement2.pcap afin de répondre aux questions suivantes :
 
-QUestions :
+Questions :
 a)  Count the number of TCP flows initiated from the sender
 b) For each TCP flow 
    - For the first 2 transactions after the TCP connection is set up (from sender to receiver), get the values of the Sequence number, Ack number, and Receive Window size. Explain these values.
@@ -12,6 +13,10 @@ b) For each TCP flow
 ```
 python analysis_pcap_tcp_B.py ./assignement2.pcap
 ```
+
+Ce script pose plusieurs problèmes :
+- les CWND sont indiquées en Bytes avec un MSS fixe (1460)
+- les IP src et dst sont codées en dur dans le script
 
 PS : ces scripts sont extraits de :
 - [https://github.com/pkpraveen895/pcap-analyser.git](https://github.com/pkpraveen895/pcap-analyser.git)

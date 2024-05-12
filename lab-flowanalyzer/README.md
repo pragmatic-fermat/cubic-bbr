@@ -1,4 +1,5 @@
 
+# Introduction
 
 Ce script (crédité plus bas) permet notamment d'analyser un pcap pour calculer :
 - liste des flow TCP (le 3 wya handshake doit être capturé)
@@ -46,6 +47,7 @@ Flow 3:
 ```
 
 # Tâches
+
 ## Obtenir 3 pcap pour 3 CCA différents 
 Par exemple :
 ```
@@ -53,7 +55,8 @@ tcpdump -n -s 96 -w iperf-sfo-reno.pcap "ip host @IP" &
  iperf3 -c 147.182.236.95 -C ** reno/cubic/bbr **
  ```
 
-Puis lancer l'analyse et voir si elle concluante :
+## Puis lancer l'analyse et voir si elle concluante :
+Par exemple :
  ```
 python analysis_pcap_tcp.py ../iperf-sfo-cubic.pcap
  ```
