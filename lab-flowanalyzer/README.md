@@ -51,7 +51,7 @@ Flow 3:
 ## Obtenir 3 pcap pour 3 CCA différents 
 Par exemple :
 ```
-tcpdump -n -s 96 -w iperf-sfo-reno.pcap "ip host @IP" &
+tcpdump -n -s 96 -w iperf-sfo-cubic.pcap "ip host @IP" &
  iperf3 -c 147.182.236.95 -C ** reno/cubic/bbr **
  ```
 
@@ -61,6 +61,14 @@ Par exemple :
 python analysis_pcap_tcp.py ../iperf-sfo-cubic.pcap
  ```
 
+## Vérification manuelle de la credibilité
+
+Vérifier à la main dans Wireshark que ces valeurs sont exactes :
+- nb de 2 DUP ACK
+- nb de RTO
+- CWND (hypothèse  = BIF)
+
+  
 PS : l'outil (surtout la librairie ```dpkt```) ne supporte que le format ```pcap``` et pas ```pcapng```.
 Pour effectuer uen conversion :
 ```
