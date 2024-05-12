@@ -123,7 +123,7 @@ def congestionWindow(connection):
             elif (p.timestamp-first_packet_timestamp)>(0.073):
                 if i!=0:
                     ##print ("Congestion Window = %s "%(count*1460))
-                    print (f"Congestion Window #{i} = {count} , PacketTimestamp = {p.timestamp:0.5f} FirstPacket = {first_packet_timestamp:.5f}")
+                    print (f"Congestion Window #{i} = {count} , PacketTimestamp = {p.timestamp:0.5f} SEQ = {p.sequence_number}")
                 count = 0
                 first_packet = True
                 i += 1

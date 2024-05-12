@@ -1,5 +1,5 @@
 
-# Analyse statistiqe des suites de CWND
+# Analyse statistique des suites de CWND
 
 Lister les conversations :
 ```
