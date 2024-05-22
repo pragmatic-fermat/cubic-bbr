@@ -40,9 +40,9 @@ Naviguez sur http://@IP:8505 , uploadez un petit (<2MB) pcap
 
 Posez ensuite les questions, et appréciez les performance de votre nouveau stagaire réseau :)
 
-# Partie B : Ollama  avec LWP
+# Partie B : Ollama  avec LPW
 
-Cette fois-ci nous allons utiliser la puissance de calcul locale.
+Cette fois-ci nous allons utiliser un LLM local sur une VM doté d'un GPU.
 
 ### Tache 1 : Installation
 
