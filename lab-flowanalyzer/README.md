@@ -2,10 +2,10 @@
 # Introduction
 
 Ce script (crédité plus bas) permet notamment d'analyser un pcap pour calculer :
-- liste des flow TCP (le 3 wya handshake doit être capturé)
+- liste des flow TCP (le **3 way handshake** doit être capturé)
 - numéro de SEQ et d'ACL initiaux
-- débit de l'émetteur (basé sur les données captuées, donc un snamp len à 96 va fausser les résultats)
-- estimation des 5 premières CWND basé sur le nombre de paquets envoyés lors d'un RTT
+- débit de l'émetteur (basé sur les données capturées, donc un snap len à 96 va fausser ce résultat)
+- estimation des 5 premières **cwnd** basé sur le nombre de paquets envoyés lors d'un RTT
 - nombre de retransmissions dus à des 3 DUP ou RTO (=2 x RTT)
 
 ```
@@ -49,16 +49,35 @@ Flow 3:
 # Tâches
 
 ## Obtenir 3 pcap pour 3 CCA différents 
-Par exemple :
+
+Par exemple, on lance un capure en backgroung (*&*) :
+
 ```
 tcpdump -n -s 96 -w iperf-sfo-cubic.pcap "ip host @IP" &
- iperf3 -c 147.182.236.95 -C ** reno/cubic/bbr **
- ```
+```
+
+Puis on lance un **iperf** en précisant le CCA :
+```
+iperf3 -c 147.182.236.95 -C ** reno/cubic/bbr **
+```
+
+Enfon, on "tue" le tcpdump qui tournait :
+```
+killall tcpdump
+```
+
+PS:  **tshark** a une option de durée (en sec)  : ```tshark -a duration:600```
+
 
 ## Puis lancer l'analyse et voir si elle concluante :
-Par exemple :
+
+Par exemple, en utilisant le script attaché 
+- par ```git clone https://github.com/pragmatic-fermat/cubic-bbr.git```
+- ou téléchargement direct (lien)[https://raw.githubusercontent.com/pragmatic-fermat/cubic-bbr/main/lab-flowanalyzer/analysis_pcap_tcp.py]
+
+Lancer l'analyse :
  ```
-python analysis_pcap_tcp.py ../iperf-sfo-cubic.pcap
+python analysis_pcap_tcp.py iperf-sfo-cubic.pcap
  ```
 
 ## Vérification manuelle de la credibilité
@@ -70,7 +89,7 @@ Vérifier à la main dans Wireshark que ces valeurs sont exactes :
 
   
 PS : l'outil (surtout la librairie ```dpkt```) ne supporte que le format ```pcap``` et pas ```pcapng```.
-Pour effectuer uen conversion :
+Pour effectuer une conversion :
 ```
 editcap -F libpcap -T ether test.pcapng test.pcap
 ```
