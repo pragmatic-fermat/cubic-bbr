@@ -4,16 +4,16 @@ Dans ce lab, nous allons grapher **cwnd** en nous basant sur la collecte des ind
 
 # Preparation du Client
 
-Sur le Client (i.e votre VM linux dédiée), désactiver l'historique et TSO dans les paramètres kernel :
+Sur le Client (i.e votre VM linux dédiée), vous avez probablement déjà cloné le repository, plaçons-nous dans le bon répertoire :
 ```
-wget https://raw.githubusercontent.com/pragmatic-fermat/cubic-bbr/main/labgraph/client/prepare-kernel.sh
-chmod a+x prepare-kernel.sh
-./prepare-kernel.sh
+git clone https://github.com/pragmatic-fermat/cubic-bbr.git
+cd cubic-bbr/lab-graph/client
 ```
 
-Récuperer le script de mesure du **cwnd** (basé sur ```ss``` )
+Désactivons l'historique et TSO dans les paramètres kernel :
 ```
-wget https://raw.githubusercontent.com/pragmatic-fermat/cubic-bbr/main/labgraph/client/ss-output.sh
+chmod a+x prepare-kernel.sh
+./prepare-kernel.sh
 ```
 
 # Réalisation du "tir"
@@ -21,28 +21,38 @@ wget https://raw.githubusercontent.com/pragmatic-fermat/cubic-bbr/main/labgraph/
 Dans 2 fenêtre sur le Client, executez :
 
 ## a) mesure de CWND en continu
+
+Lançons le script de mesure du **cwnd** (basé sur ```ss``` ) dans un premier terminal
+
 ```
 bash ss-output.sh @TARGET
 ```
+
 ## b) iperf vers la destination en spécifiant le CCA (ici RENO)
+
+En parallèle, dans un second terminal, toujours sur la VM Client :
+
 ```
 iperf3 -c @TARGET -P 3 -t 60 -C reno  
 ```
 
-Le tir dure 60 sec. Lorsqu'il est fini, tappez (une seule fois) ```Ctrl-C``` dans l'autre fenêtre afin de stopper la collecte de données.
+Le tir dure 60 sec. 
+
+Lorsqu'il est fini, tappez (une seule fois) ```Ctrl-C``` dans la 1er terminal afin de stopper la collecte de données.
 
 PS = ```@TARGET``` est fourni par l'animateur, c'est le routeur qui SNAT/DNAT ver le serveur, avec une application de bande-passante/delai/perte de paquet (voir [script de configuration](rtr/setup-bw.sh) )
 
 PS2 : il est possible d'utiliser un script qui ajoute le calcul du début (tput) : [ss-output-add-tput.sh](client/ss-output-add-tput.sh)
 
 # Creation du graphe CWND pour une connexion
-Vérifier que les données sont bien enregistrées :
+
+Depuis le 1er terminal, vérifier que les données sont bien enregistrées :
 ```
 ls -lh sender-ss.*
 tail sender-ss.txt
 ```
 
-Créeons maintenant le graphe et copions-le à dans le content-dir web du Client :
+Créeons maintenant le graphe et copions-le à dans le *content-dir* du serveur web sur notre Client :
 ```
 python3 create-png.py
 
@@ -50,11 +60,13 @@ cp sender-ss.png /var/www/html/
 ```
 
 Visiter http://@IPClient/sender-ss.png
+
 Analysez !!
 
 # Creation du graphe CWND pour 3 connexions
 
 On part du jeu de données précedent, cette fois-ci le script de génération d'image (svg) est en R :
+
 ```
 Rscript ss-data-analysis-cwnd-vs-time-no-ssthresh.R
 cp sender-ss.svg /var/www/html/
