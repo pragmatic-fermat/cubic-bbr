@@ -61,7 +61,7 @@ wget "https://ccb-bbr.s3.eu-central-1.amazonaws.com/assignment2.pcap"
 mkdir subpcaps
 ```
 
-Nous pouvons enfin, appeller notre module python **pcap-splitter** :
+Nous pouvons enfin, appeller notre module python **pcap-splitter** depuis son répertoire :
 ```
 python3
 >>> from pcap_splitter.splitter import PcapSplitter
