@@ -1,6 +1,6 @@
 # Introduction
 
-"Bytes in Flight" (BIF) est une approximation de CWND (en l'asbence d'informations coté émetteur)
+"Bytes in Flight" (**BIF**) est une approximation de **cwnd** (en l'absence d'informations système coté émetteur)
 
 # Tâches 
 
@@ -9,10 +9,12 @@ D'abord listez les conversations TCP du pcap X avec ```tshark``` (lent)
 ```tshark -r assignment2.pcap -q -z conv,tcp```
 
 
-Puis, utilisez le script ```bytes-in-flight.sh``` pour analyser la connexions souhaitée (attention à bien préciser le principal emetteur en premier dans les arguments de ```bytes-in-flight.sh``` , c-a-d celui dont on veut étudier l'algorithme de controle de congestion
+Puis, utilisez le script du répertoire ```bytes-in-flight.sh``` pour analyser la connexions souhaitée 
+
+(attention à bien préciser le principal emetteur en premier dans les arguments de ```bytes-in-flight.sh``` , c-a-d celui dont on veut étudier l'algorithme de controle de congestion.
 
 ```
-bytes-in-flight.sh ./assignment2.pcap 130.245.145.12 43498 128.208.2.198 80 bif.txt
+./bytes-in-flight.sh ./assignment2.pcap 130.245.145.12 43498 128.208.2.198 80 bif.txt
 ```
 
 Le contenu du fichier bif.txt ressemble à ceci :
@@ -21,13 +23,14 @@ Le contenu du fichier bif.txt ressemble à ceci :
 2.004154000   10092569  -  10075209  = BIF:  17360      1638400  Avail-Window:  1621040   21188
 2.004158000   10092569  -  10078105  = BIF:  14464      1638400  Avail-Window:  1623936   21189
 ```
+
 avec les colonnes signifiant :
 - reltime
 - sendersequence
 - acksequence
 - BIF: sendersequence - acksequence
 - lastwindow
-- Avail-Window: lastwindow - (sendersequence - acksequence)
+- avail-Window: lastwindow - (sendersequence - acksequence)
 - framenumber
 
 Pour analyser le début et la fin :
@@ -57,7 +60,7 @@ Pour analyser le début et la fin :
 
 Analysez les 20/30 ères lignes pour observer le slow start, le RTT...
 
-Idéalement il nous faudrait des retsransmissions (RTO ou 3 Dup ACKs), cherchons-les :
+Idéalement il nous faudrait les retransmissions (RTO ou 3 Dup ACKs), cherchons-les :
 ```
 # ./packet-analysis/find-retran-failures.sh ./assignment2.pcap "tcp.srcport==80"
 current stream:0, 1, 2, 
