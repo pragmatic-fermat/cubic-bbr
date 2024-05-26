@@ -1,26 +1,19 @@
 # Introduction
 
-Dans ce lab, nous allons grapher CWN en nous basant sur la collecte des indicateurs systèmes du coté de l'émétteur.
+Dans ce lab, nous allons grapher **cwnd** en nous basant sur la collecte des indicateurs systèmes du coté de l'émétteur.
 
 # Preparation du Client
 
-Sur le Client, lancer :
+Sur le Client (i.e votre VM linux dédiée), désactiver l'historique et TSO dans les paramètres kernel :
 ```
-apt update  
-apt -y install iperf3 moreutils nginx curl ethtool
-apt -y install python3-pip libjpeg-dev
-python3 -m pip install pandas matplotlib
-apt -y install r-base-core r-cran-ggplot2
-```
-
-Désactiver l'historique et TSO dans les paramètres kernel :
-```
+wget https://raw.githubusercontent.com/pragmatic-fermat/cubic-bbr/main/labgraph/client/prepare-kernel.sh
+chmod a+x prepare-kernel.sh
 ./prepare-kernel.sh
 ```
 
-Récuperer le script de mesure du CWND (basé sur ```ss``` )
+Récuperer le script de mesure du **cwnd** (basé sur ```ss``` )
 ```
-curl https://raw.githubusercontent.com/pragmatic-fermat/cubic-bbr/main/labgraph/client/ss-output.sh
+wget https://raw.githubusercontent.com/pragmatic-fermat/cubic-bbr/main/labgraph/client/ss-output.sh
 ```
 
 # Réalisation du "tir"

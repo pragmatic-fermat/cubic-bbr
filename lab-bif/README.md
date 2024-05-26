@@ -4,24 +4,41 @@
 
 # Tâches 
 
-D'abord listez les conversations TCP du pcap X avec ```tshark``` (lent)
+D'abord listez les conversations TCP du pcap X avec ```tshark``` (très lent)
 
-```tshark -r assignment2.pcap -q -z conv,tcp```
+```
+tshark -r assignment2.pcap -q -z conv,tcp
+```
 
+On obtient ceci :
+```
+================================================================================
+TCP Conversations
+Filter:<No Filter>
+                                                           |       <-      | |       ->      | |     Total     |    Relative    |   Duration   |
+                                                           | Frames  Bytes | | Frames  Bytes | | Frames  Bytes |      Start     |              |
+130.245.145.12:43500       <-> 128.208.2.198:80              4766 314 kB       7068 10 MB       11834 11 MB         0.000573000         8.3204
+130.245.145.12:43498       <-> 128.208.2.198:80              4129 272 kB       6977 10 MB       11106 10 MB         0.000000000         2.0104
+130.245.145.12:43502       <-> 128.208.2.198:80               456 30 kB         729 1,096 kB     1185 1,126 kB      4.689172000         0.7403
+================================================================================
+```
 
 Puis, utilisez le script du répertoire ```bytes-in-flight.sh``` pour analyser la connexions souhaitée 
 
 (attention à bien préciser le principal emetteur en premier dans les arguments de ```bytes-in-flight.sh``` , c-a-d celui dont on veut étudier l'algorithme de controle de congestion.
 
 ```
+chmod a+x bytes-in-flight.sh
 ./bytes-in-flight.sh ./assignment2.pcap 130.245.145.12 43498 128.208.2.198 80 bif.txt
 ```
 
 Le contenu du fichier bif.txt ressemble à ceci :
 ```
+[..]
 2.004151000   10092569  -  10072313  = BIF:  20256      1638400  Avail-Window:  1618144   21187
 2.004154000   10092569  -  10075209  = BIF:  17360      1638400  Avail-Window:  1621040   21188
 2.004158000   10092569  -  10078105  = BIF:  14464      1638400  Avail-Window:  1623936   21189
+[..]
 ```
 
 avec les colonnes signifiant :
@@ -62,10 +79,16 @@ Analysez les 20/30 ères lignes pour observer le slow start, le RTT...
 
 Idéalement il nous faudrait les retransmissions (RTO ou 3 Dup ACKs), cherchons-les :
 ```
-# ./packet-analysis/find-retran-failures.sh ./assignment2.pcap "tcp.srcport==80"
+chmod a+x find-retran-failures.sh
+./find-retran-failures.sh ./assignment2.pcap "tcp.srcport==80"
+```
+
+On obtient :
+```
 current stream:0, 1, 2, 
 No TCP connections appear to have failed due of retransmissions
 ```
+Hummm...
 
 ---
 
