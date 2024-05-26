@@ -1,13 +1,14 @@
 
 # Analyse statistique des suites de CWND
 
-Lister les conversations :
+Soit le fichier [assignment2.pcap](https://ccb-bbr.s3.eu-central-1.amazonaws.com/assignment2.pcap), lister les conversations TCP :
+
 ```
 tshark -q -z conv,tcp -n -r assignment2.pcap 
 ```
 
-On voit que c'est très lent...
-(tcaptrace)[] est une meilleur alternative :
+On constate que c'est très lent...
+**tcptrace** est une meilleur alternative :
 ```
 apt install -y tcptrace
 ```
@@ -26,14 +27,19 @@ TCP connection info:
   3: nrgws2.nrg.cs.stonybrook.edu:43502 - 128.208.2.198:80 (e2f)  729>  456<  (complete)
 ```
 
-En choisir une et construire un filtre (par ex "tcp.scrport==80 and tcp.dstport==43500)
+## Utilisation de tcpdump pour decouper les pcap
+
+Choisir une conversation et construire un filtre (par ex "tcp.scrport==80 and tcp.dstport==43500)
 ```
 tcpdump -n -r assignment2.pcap -w tcp-43500.pcap "tcp port 43500"
 ```
 Là aussi la méthode est laborieuse.
+
+## Utilisation de Pcap-Splitter
+
 Utilisons un outil plus adapté : (Pcap-Splitter)[https://github.com/shramos/pcap-splitter?tab=readme-ov-file] :
 
-Installons d'abord l'outil et ses dépendances
+Installons d'abord les dépendances
 ```
 wget https://github.com/seladb/PcapPlusPlus/releases/download/v23.09/pcapplusplus-23.09-ubuntu-22.04-gcc-11.2.0-x86_64.tar.gz
 tar zxvf pcapplusplus-23.09-ubuntu-22.04-gcc-11.2.0-x86_64.tar.gz 
@@ -42,9 +48,22 @@ cp /bin/* /usr/local/sbin/
 mkdir /root/subcaps
 ```
 
-Puis
+Puis, installons l'outil
 ```
-python
+cd /root/
+git clone https://github.com/shramos/pcap-splitter.git
+cd pcap-splitter
+```
+
+Téléchargeons le pcap global et créeons un sous-repertoire pour les résultats :
+```
+wget "https://ccb-bbr.s3.eu-central-1.amazonaws.com/assignment2.pcap"
+mkdir subpcaps
+```
+
+Nous pouvons enfin, appeller notre module python **pcap-splitter** :
+```
+python3
 >>> from pcap_splitter.splitter import PcapSplitter
 >>>ps = PcapSplitter("./assignment2.pcap")
 >>> print(ps.split_by_session("subpcaps", pkts_bpf_filter="tcp"))
@@ -62,13 +81,11 @@ total 23M
 -rw-r--r-- 1 root root 1.1M May 11 20:42 assignment2-0003.pcap
 ```
 
-Travaillons maintenant sur tcp-43500.pcap :
+## Affichage des ACK_RTT
 
-Printing relative time of each frame with the ACK_RTT as columns, e.g.
+Travaillons maintenant sur une des sous-pcap en utilisant tshark pour afficher en colonne les ACK_RTT :
 ```
-tcpdump -n -r assignment2.pcap -w tcp-43500.pcap "tcp port 43500" 
-
-tshark -r tcp-43500.pcap -T fields -e frame.time_relative  -e tcp.analysis.ack_rtt > desta-rtt.txt #calculate sample RTT from the command line
+tshark -r assignment2-0003.pcap -T fields -e frame.time_relative  -e tcp.analysis.ack_rtt > desta-rtt.txt 
 ```
 
 ---
