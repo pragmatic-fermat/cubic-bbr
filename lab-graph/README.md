@@ -11,9 +11,15 @@ cd cubic-bbr/lab-graph/client
 ```
 
 Désactivons l'historique et TSO dans les paramètres kernel :
+
 ```
 chmod a+x prepare-kernel.sh
 ./prepare-kernel.sh
+```
+
+Installons les logiciels nécessaires (a priori déjà installés précedemment) :
+```
+apt update && apt install -y moreutils iperf3 python3-pandas nginx r-base-core r-cran-ggplot2
 ```
 
 # Réalisation du "tir"
@@ -38,7 +44,7 @@ iperf3 -c @TARGET -P 3 -t 60 -C reno
 
 Le tir dure 60 sec. 
 
-Lorsqu'il est fini, tappez (une seule fois) ```Ctrl-C``` dans la 1er terminal afin de stopper la collecte de données.
+Lorsqu'il est fini, tappez (une seule fois) ```Ctrl-C``` dans le 1er terminal afin de stopper la collecte de données.
 
 PS = ```@TARGET``` est fourni par l'animateur, c'est le routeur qui SNAT/DNAT ver le serveur, avec une application de bande-passante/delai/perte de paquet (voir [script de configuration](rtr/setup-bw.sh) )
 
@@ -61,11 +67,13 @@ cp sender-ss.png /var/www/html/
 
 Visiter http://@IPClient/sender-ss.png
 
-Analysez !!
+Analysez !! (en comparant les résultats obtenus pour les 3 modes de CCA : **reno**, **cubic** et **bbr**)
 
 # Creation du graphe CWND pour 3 connexions
 
-On part du jeu de données précedent, cette fois-ci le script de génération d'image (svg) est en R :
+Rejouez les étapes précedentes avec le script de collecte ```bash ss-output-add**-tput**.sh @TARGET```
+
+Cette fois-ci le script de génération d'image (svg) est en R :
 
 ```
 Rscript ss-data-analysis-cwnd-vs-time-no-ssthresh.R
