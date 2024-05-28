@@ -2,6 +2,8 @@
 
 ### Tache 0 : Installer Docker
 
+Connectez-vous sur votre VM Linux.
+
 ```
 snap install docker
 ```
@@ -20,9 +22,10 @@ Demander à votre meilleur ami (riche) du moment
 
 ### Tache 3 : Injecter la clé OPENAI
 
-La renseigner dans le ```docker-compose .yaml``` (sans simple/double quote)
+La renseigner dans le fichier ```docker-compose .yaml``` (sans simple/double quote) avec **vi** (ou **nano** pour les débutants Linux)
 
-### Tache 4 : Lancer le service wweb
+
+### Tache 4 : Lancer le service web
 
 ```
 docker compose build
@@ -40,6 +43,9 @@ Naviguez sur http://@IP:8505 , uploadez un petit (<2MB) pcap
 
 Posez ensuite les questions, et appréciez les performance de votre nouveau stagaire réseau :)
 
+La lecture du code est instructive; on comprend comment le contenu du pcap est envoyé à Chat-GPT...
+
+
 # Partie B : Ollama  avec LPW
 
 Cette fois-ci nous allons utiliser un LLM local sur une VM doté d'un GPU.
@@ -56,9 +62,10 @@ Installons OpenLLama :
 curl -fsSL https://ollama.com/install.sh | sh
 ```
 
-Puis télchargeons quelques *models* populaires :
+Puis téléchargeons quelques *models* populaires :
 ```
 ollama pull dolphin-mistral:latest
+```
 ```
 ollama pull llama3
 ```
@@ -74,18 +81,19 @@ pip install streamlit --upgrade
 
 ### Tache 2 : Utilisez l'interface web
 
-Lancez 
+Lancez l'interface Web
 ```
 streamlit run bin/lpw_main.py
 ```
 
 Connectez-vous avec un navigateur sur l'URL affichée, uploadez un pcap et jouez avec le chat et les *models*.
 
+
 # Partie C : Ollama  avec Packet_buddy
 
 ### Tache 1 : Installation
 
-Cette fois-ci on utilise un machine avec une GPU !
+Cette fois-ci on utilise un machine avec une  GPU !
 
 ```
 apt update
