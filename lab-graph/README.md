@@ -1,6 +1,10 @@
 # Introduction
 
-Dans ce lab, nous allons grapher **cwnd** en nous basant sur la collecte des indicateurs systèmes du coté de l'émétteur.
+
+Dans ce lab, nous allons montrer les différences de comportement et de performance de plusieurs CCA suivant les conditions de RTT, Buffer et BW.
+
+Pour cela, nous grapherons **cwnd** en nous basant sur la collecte des indicateurs systèmes du coté de l'émétteur.
+
 
 Nous allons utiliser les données du kernel fournies par l'utilitaire Linux **ss** :
 
@@ -16,6 +20,26 @@ tcp           ESTAB          0               0                         172.232.4
 tcp           ESTAB          0               1665200                   172.232.47.90:58044                   X.Y.Z.V:5201          timer:(on,464ms,0) ino:178465 sk:a1 cgroup:/user.slice/user-0.slice/session-5.scope <->
 	 ts sack bbr wscale:6,7 rto:456 rtt:239.271/2.779 mss:1448 pmtu:1500 rcvmss:536 advmss:1448 cwnd:70 ssthresh:50 bytes_sent:1618901 bytes_retrans:532864 bytes_acked:893454 segs_out:1121 segs_in:365 data_segs_out:1119 bbr:(bw:2016832bps,mrtt:148.727,pacing_gain:1,cwnd_gain:2) send 3388961bps lastsnd:4 lastrcv:4048 pacing_rate 1996664bps delivery_rate 2236552bps delivered:696 busy:4044ms rwnd_limited:200ms(4.9%) unacked:133 retrans:25/368 lost:25 sacked:77 rcv_space:14480 rcv_ssthresh:64088 notsent:1472616 minrtt:148.727
 ```
+
+# Etat du serveur IPerf
+
+Un routeur (i.e une VM) est placé devant le serveur, en utilisant les scripts du répertoire [./rtr](./rtr)
+
+![Setup](../img/setup.png)
+
+Au début du lab, la bande passante au niveau du routeur est de 10Mbps avec un un buffer de 100ko.
+```
+:~# tc class show dev eth0
+class htb 1:3 root leaf 3: prio 0 rate 10Mbit ceil 10Mbit burst 1600b cburst 1600b 
+# tc qdisc show
+qdisc noqueue 0: dev lo root refcnt 2 
+qdisc htb 1: dev eth0 root refcnt 2 r2q 10 default 0x3 direct_packets_stat 2 direct_qlen 1000
+qdisc bfifo 3: dev eth0 parent 1:3 limit 104857b
+qdisc pfifo_fast 0: dev eth1 root refcnt 2 bands 3 priomap 1 2 2 2 1 2 0 0 1 1 1 1 1 1 1 1
+```
+
+L'IP publique du Routeur est @TARGET.
+Mesurons le RTT du CLient vers @TARGET.
 
 # Preparation du Client
 
@@ -65,6 +89,11 @@ PS = ```@TARGET``` est fourni par l'animateur, c'est le routeur qui SNAT/DNAT ve
 
 PS2 : il est possible d'utiliser un script qui ajoute le calcul du début (tput) : [ss-output-add-tput.sh](client/ss-output-add-tput.sh)
 
+Notez les *retries* dans les statistiques d'IPerf pour (in)valider le ratio BBR/CUBIC du tableau ci-dessous (c-a-d ~x 100) , tirés d'un [article de l'APNIC](https://blog.apnic.net/2020/01/10/when-to-use-and-not-use-bbr/) :
+
+![CUBICvsBBRretries](../img/Heatmap-of-packet-retransmissions-for-BBR-and-Cubic-.png)
+
+
 # Creation du graphe CWND pour une connexion
 
 Depuis le 1er terminal, vérifier que les données sont bien enregistrées :
@@ -103,6 +132,16 @@ Rscript ss-data-analysis-rtt-vs-time.R
 cp sender-ss-rtt-vs-time.svg /var/www/html/
 ```
 Cette fois-ci c'est http://@IPClient/sender-ss-rtt-vs-time.svg qu'il faut visiter.
+
+# Modification du buffer et de la bande passante au niveau du goulet d'étranglement
+
+Nous allons maintenant modifier la BW et le buffer.
+
+Proposez des valeurs de BW qui permettraient de vérifier les promesses du tableau BBR vs CUBIC ci-dessous :
+
+![CUBICvsBBR](../img/Heatmap-of-BBR’s-improvement-in-goodput-compared-to-Cubic.png)
+
+[L'article](https://blog.apnic.net/2020/01/10/when-to-use-and-not-use-bbr/) précise que les buffers sont "shallow" (= 100KB)
 
 ---
 PS : ce Lab est inspiré de [https://harshkapadia2.github.io/tcp-version-performance-comparison/](https://harshkapadia2.github.io/tcp-version-performance-comparison/).
