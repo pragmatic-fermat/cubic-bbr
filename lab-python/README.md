@@ -1,6 +1,6 @@
 # Construction de la suite de **cwnd** avec python
 
-Ce script a été construit autour du pcap **assignement2.pcap** afin de répondre aux questions suivantes :
+Ce script a été construit autour du pcap [assignment2.pcap](https://ccb-bbr.s3.eu-central-1.amazonaws.com/assignment2.pcap) afin de répondre aux questions suivantes :
 
 Questions :
 

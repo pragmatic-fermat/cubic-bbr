@@ -1,15 +1,17 @@
-# cubic-bbr
+# Analyse des CCAs
 
 Voici l'enchainement des idées dans ces labs successifs :
 
-- Analyser une capture
+- [Lab Setup](./lab-setup/README.md) : Mise en place des éleménts utilisés par la suite
 
-- Mettre en place un Lab avec un lien engorgé configurable
+- [Lab BIF](./lab-bif/README.md) : Lab de calcul via script du *Bytes in Flight*
 
-- Lancer des transferts en RENO/CUBIC/BBR au travers de ce lien engorgé et constater avec Wireshark les différences (RTT, SS, CWND, Fast Retransmit..)
+- [Lab Graph](./lab-graph/README.md) : Lab de mesure de **cwnd** dans des conditions variables de bande passante et de RTT et de CCA
 
-- Grapher les CWND de transfert RENO/CUBIC/BBR en se basant sur les données systèmes de l'emetteur
+- [Lab python](./lab-python/) : Lab d'utilisation d'un 1er script pour compter les RTT,cwnd,etc..
 
-- Analyser "à la main" (i.e Wireshark) d'une connexion sur la base d'un pcap , établir les caractéristiques (RTO,3DUP,SS,CWND) , deviner le CCA
+- [Lab flowanalyzer](./lab-flowanalyzer/) : Lab d'utilisation d'un second script d'analyse de pcap
 
-- Utiliser des scripts d'analyse afin d'industrialiser la démarche , prendre conscience de la complexité de la tâche
+- [Lab stats](./lab-stats/README.md) : Lab d'utilisation d'un troisième  script d'analyse de pcap...
+
+- [Lab IA](./lab-ia/) : Lab d'utilisation de LLM pour l'analyse de pcap

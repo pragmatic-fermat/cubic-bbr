@@ -4,6 +4,12 @@
 
 # Tâches 
 
+Dans ce lab, on analyse le fichier pcap [assignment2.pcap](https://ccb-bbr.s3.eu-central-1.amazonaws.com/assignment2.pcap), que vous pouvez télécharger simplement :
+
+```
+wget https://ccb-bbr.s3.eu-central-1.amazonaws.com/assignment2.pcap
+```
+
 D'abord listez les conversations TCP du pcap X avec ```tshark``` (très lent)
 
 ```

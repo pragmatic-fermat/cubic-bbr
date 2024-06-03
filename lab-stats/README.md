@@ -88,5 +88,10 @@ Travaillons maintenant sur une des sous-pcap en utilisant tshark pour afficher e
 tshark -r assignment2-0003.pcap -T fields -e frame.time_relative  -e tcp.analysis.ack_rtt > desta-rtt.txt 
 ```
 
+## Utilisation du script tcp_variant_individual.py
+
+Lire et comprendre le script.
+L'utiliser sur nos données.
+
 ---
 PS : ce Lab est inspiré de [https://github.com/desta161921/TCP-Protocol-Related](https://github.com/desta161921/TCP-Protocol-Related)
