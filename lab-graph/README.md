@@ -79,9 +79,12 @@ Il suffit de lancer le temps du tir :
 tcpdump -n -s 96 -w trace.pcap "ip host @TARGET and tcp"
 ```
 
-Le "-s 120" spécifie de ne capture que les 96 premires octets (largement suffisants)
+Le "-s 120" spécifie de ne capturer que les 96 premires octets (largement suffisants)
+La trace aura pour nom "trace.pcap"
 
-A la fin de l'expérimentation, pour récuper le fichier pcap sur son PC, il suffit d'utiliser un site de transfert tel que [bashupload.com](https://bashupload.com/)
+A la fin de l'expérimentation, 
+- faire Ctrl-C pour stopper la capture
+- pour récuper le fichier pcap sur son PC, il suffit d'utiliser un site de transfert tel que [bashupload.com](https://bashupload.com/)
 
 ```
 curl bashupload.com -T trace.pcap
