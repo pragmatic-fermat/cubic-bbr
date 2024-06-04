@@ -34,7 +34,8 @@ with open(filename, "r") as csvfile:
 
     beta_values = []
     cwnd_loss = 0
-    for current_cwnd, col2 in ff:
+    ##for current_cwnd, col2 in ff:
+    for col1, current_cwnd in ff:
         if not current_cwnd.isdigit():
             continue
         value = int(current_cwnd)

@@ -1,9 +1,19 @@
 
 # Analyse statistique des suites de CWND
 
+Ce lab a pour but d'utiliser un script python qui vise à déduire le beta de la suite de BIF observés (en supposant que cwnd=bif)
+Le beta peut permettre d'identifier le CCA.
+
+![beta](../img/beta.png)
+
+Des valeurs communes de beta sont :
+
+![beta2](../img/beta2.png)
+
 Soit le fichier [assignment2.pcap](https://ccb-bbr.s3.eu-central-1.amazonaws.com/assignment2.pcap), lister les conversations TCP :
 
 ```
+wget https://ccb-bbr.s3.eu-central-1.amazonaws.com/assignment2.pcap
 tshark -q -z conv,tcp -n -r assignment2.pcap 
 ```
 
@@ -44,8 +54,7 @@ Installons d'abord les dépendances
 wget https://github.com/seladb/PcapPlusPlus/releases/download/v23.09/pcapplusplus-23.09-ubuntu-22.04-gcc-11.2.0-x86_64.tar.gz
 tar zxvf pcapplusplus-23.09-ubuntu-22.04-gcc-11.2.0-x86_64.tar.gz 
 cd pcapplusplus-23.09-ubuntu-22.04-gcc-11.2.0-x86_64/
-cp /bin/* /usr/local/sbin/
-mkdir /root/subcaps
+cp -r /bin/* /usr/local/sbin/
 ```
 
 Puis, installons l'outil
@@ -61,7 +70,7 @@ wget "https://ccb-bbr.s3.eu-central-1.amazonaws.com/assignment2.pcap"
 mkdir subpcaps
 ```
 
-Nous pouvons enfin, appeller notre module python **pcap-splitter** depuis son répertoire :
+Nous pouvons enfin, appeller notre module python **pcap-splitter** depuis son répertoire, et crer les captures individuelles dans le sous-répertoire **subcaps**  :
 ```
 python3
 >>> from pcap_splitter.splitter import PcapSplitter
@@ -85,13 +94,38 @@ total 23M
 
 Travaillons maintenant sur une des sous-pcap en utilisant tshark pour afficher en colonne les ACK_RTT :
 ```
-tshark -r assignment2-0003.pcap -T fields -e frame.time_relative  -e tcp.analysis.ack_rtt > desta-rtt.txt 
+tshark -r subpcaps/assignment2-0003.pcap -T fields -e frame.time_relative  -e tcp.analysis.ack_rtt > desta-rtt.txt 
+cat desta-rtt.txt 
 ```
 
 ## Utilisation du script tcp_variant_individual.py
 
-Lire et comprendre le script.
+Télécharger le script ```tcp_variant_individual.py```.
+```
+wget https://raw.githubusercontent.com/pragmatic-fermat/cubic-bbr/main/lab-stats/tcp_variant_individual.py
+```
+Le lire et le comprendre...
 L'utiliser sur nos données.
+
+Quelques pistes :
+- le script attend en entrée un fichier CSV
+-  en première colonne , il attend **cwnd**
+- ```tshark -r subpcaps/assignment2-0003.pcap -T fields -e frame.time_relative  -e tcp.analysis.bytes_in_flight > bif.txt``` permet d'extrait les BIF
+- ```sed -i 's/\s/,/g' bif.txt```  permet de remplacer les espaces par une virgule (et donc do'btenir un CSV)
+- ```python3 tcp_variant_individual.py bif.txt``` permet de le lancer
+
+Voici ce qu'on peut obtenir :
+```
+===============================================================
+Length of Beta Values: 128
+Median of the Beta Values:0.98
+Sum of Beta Values:123.12
+Average of Beta Values:0.96
+TCP Variant: BIC TCP Variant
+===============================================================
+```
+
+Je laisse le lecteur conclure quant à la fiabilité d'un tel script...
 
 ---
 PS : ce Lab est inspiré de [https://github.com/desta161921/TCP-Protocol-Related](https://github.com/desta161921/TCP-Protocol-Related)
