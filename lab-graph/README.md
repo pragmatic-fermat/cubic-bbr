@@ -72,8 +72,33 @@ Lançons le script de mesure du **cwnd** (basé sur ```ss``` ) dans un premier t
 ```
 bash ss-output.sh @TARGET
 ```
+## b) [OPTION] Capture de la trace (et récupération de celle-ci)
 
-## b) iperf vers la destination en spécifiant le CCA (ici RENO)
+Il suffit de lancer le temps du tir :
+```
+tcpdump -n -s 96 -w trace.pcap "ip host @TARGET and tcp"
+```
+
+Le "-s 120" spécifie de ne capture que les 96 premires octets (largement suffisants)
+
+A la fin de l'expérimentation, pour récuper le fichier pcap sur son PC, il suffit d'utiliser un site de transfert tel que [bashupload.com](https://bashupload.com/)
+
+```
+curl bashupload.com -T trace.pcap
+```
+
+Ce qui donne (par exemple)
+```
+=========================
+Uploaded 1 file, 23 352 514 bytes
+
+wget http://bashupload.com/g3VGp/vp-6s.pcap
+=========================
+```
+
+**Attention** sur https://bashupload.com/, les fichiers sont limités à 50G, stockés seulement 3j, et ne peuvent être téléchargés qu'une seule fois.
+
+## c) iperf vers la destination en spécifiant le CCA (ici RENO)
 
 En parallèle, dans un second terminal, toujours sur la VM Client :
 
