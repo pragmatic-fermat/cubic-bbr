@@ -79,7 +79,7 @@ Il suffit de lancer le temps du tir :
 tcpdump -n -s 96 -w trace.pcap "ip host @TARGET and tcp"
 ```
 
-Le "-s 96" spécifie de ne capturer que les 96 premires octets (largement suffisants)
+Le "-s 96" spécifie de ne capturer que les 96 premiers octets (largement suffisants)
 La trace aura pour nom "trace.pcap"
 
 A la fin de l'expérimentation, 
