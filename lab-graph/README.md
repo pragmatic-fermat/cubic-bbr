@@ -173,13 +173,13 @@ Proposez des valeurs de BW qui permettraient de vérifier les promesses du table
 
 # Exemples de résultats obtenus
 ## BBR
-[bbr](../img/sender-ss-bbr.png)
+![bbr](../img/sender-ss-bbr.png)
 ## CUBIC
-[cubic](../img/sender-ss-cubic.png)
+![cubic](../img/sender-ss-cubic.png)
 ## RENO
-[reno](../img/sender-ss-reno.png)
+![reno](../img/sender-ss-reno.png)
 ## BBR
-[bbr](../img/sender-ss-bbr.svg)
+![bbr](../img/sender-ss-bbr.svg)
 
 
 ---
