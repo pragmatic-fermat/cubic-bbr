@@ -171,5 +171,16 @@ Proposez des valeurs de BW qui permettraient de vérifier les promesses du table
 
 [L'article](https://blog.apnic.net/2020/01/10/when-to-use-and-not-use-bbr/) précise que les buffers sont "shallow" (= 100KB)
 
+# Exemples de résultats obtenus
+## BBR
+[bbr](../img/sender-ss-bbr.png)
+## CUBIC
+[cubic](../img/sender-ss-cubic.png)
+## RENO
+[reno](../img/sender-ss-reno.png)
+## BBR
+[bbr](../img/sender-ss-bbr.svg)
+
+
 ---
 PS : ce Lab est inspiré de [https://harshkapadia2.github.io/tcp-version-performance-comparison/](https://harshkapadia2.github.io/tcp-version-performance-comparison/).
